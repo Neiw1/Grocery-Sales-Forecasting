@@ -23,7 +23,7 @@ feature_cols = [
 
 X_test = df_test[feature_cols].fillna(0)
 
-model = lgb.Booster(model_file='/kaggle/input/grocery-model-v2/tensorflow2/default/1/model.txt')
+model = lgb.Booster(model_file= (os.path.join(cwd, "model.txt")))
 
 y_pred = model.predict(X_test, num_iteration=model.best_iteration)
 
@@ -31,5 +31,3 @@ y_pred_original = np.expm1(y_pred)
 
 df_test['predicted_unit_sales'] = y_pred_original.clip(0)
 df_test[['id', 'predicted_unit_sales']].to_csv('predictions.csv', index=False)
-
-print("✅ Predictions saved to predictions.csv")
